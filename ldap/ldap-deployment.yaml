@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epm-ldap
+  namespace: epm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: epm-ldap
+  template:
+    metadata:
+      labels:
+        app: epm-ldap
+    spec:
+      initContainers:
+      - name: ldap-seed
+        image: tiredofit/openldap:latest
+        command:
+        - sh
+        - -c
+        - |
+          echo "Esperando que LDAP arranque..."
+          sleep 20
+          ldapadd -x -H ldap://localhost:389 \
+            -D "cn=admin,dc=epm,dc=com,dc=co" \
+            -w Epm@Admin2025 \
+            -f /ldif/epm.ldif || echo "LDIF ya cargado o error no crítico"
+        volumeMounts:
+        - name: ldif-seed
+          mountPath: /ldif
+      containers:
+      - name: openldap
+        image: tiredofit/openldap:latest
+        env:
+        - name: DOMAIN
+          value: "epm.com.co"
+        - name: ADMIN_PASS
+          value: "Epm@Admin2025"
+        - name: CONFIG_PASS
+          value: "Epm@Config2025"
+        - name: ORGANISATION
+          value: "Empresas Publicas de Medellin"
+        - name: LOG_LEVEL
+          value: "256"
+        - name: ENABLE_READONLY_USER
+          value: "true"
+        - name: READONLY_USER_USER
+          value: "readonly"
+        - name: READONLY_USER_PASS
+          value: "Epm@Read2025"
+        ports:
+        - containerPort: 389
+        volumeMounts:
+        - name: ldap-storage
+          mountPath: /var/lib/openldap
+        - name: ldif-seed
+          mountPath: /ldif
+      volumes:
+      - name: ldap-storage
+        emptyDir: {}
+      - name: ldif-seed
+        configMap:
+          name: ldap-seed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+  namespace: epm
+spec:
+  selector:
+    app: epm-ldap
+  ports:
+  - port: 389
+    targetPort: 389
+  type: ClusterIP

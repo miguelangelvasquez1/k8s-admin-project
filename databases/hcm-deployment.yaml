@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hcm-pvc
+  namespace: epm
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epm-hcm
+  namespace: epm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: epm-hcm
+  template:
+    metadata:
+      labels:
+        app: epm-hcm
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        env:
+        - name: POSTGRES_DB
+          value: "hcm_epm"
+        - name: POSTGRES_USER
+          value: "hcm_admin"
+        - name: POSTGRES_PASSWORD
+          value: "Epm@HCM2025"
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: hcm-storage
+          mountPath: /var/lib/postgresql/data
+        - name: hcm-init
+          mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
+      volumes:
+      - name: hcm-storage
+        persistentVolumeClaim:
+          claimName: hcm-pvc
+      - name: hcm-init
+        configMap:
+          name: hcm-init-sql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hcm-db
+  namespace: epm
+spec:
+  selector:
+    app: epm-hcm
+  ports:
+  - port: 5432
+    targetPort: 5432
+  type: ClusterIP

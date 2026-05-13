@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epm-adminer
+  namespace: epm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: epm-adminer
+  template:
+    metadata:
+      labels:
+        app: epm-adminer
+    spec:
+      containers:
+      - name: adminer
+        image: adminer:4.8.1
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: epm-adminer-svc
+  namespace: epm
+spec:
+  selector:
+    app: epm-adminer
+  ports:
+  - port: 8888
+    targetPort: 8080
+  type: NodePort

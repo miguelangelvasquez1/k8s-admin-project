@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cmdb-pvc
+  namespace: epm
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epm-cmdb
+  namespace: epm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: epm-cmdb
+  template:
+    metadata:
+      labels:
+        app: epm-cmdb
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_DATABASE
+          value: "cmdb_epm"
+        - name: MYSQL_USER
+          value: "cmdb_admin"
+        - name: MYSQL_PASSWORD
+          value: "Epm@CMDB2025"
+        - name: MYSQL_ROOT_PASSWORD
+          value: "Epm@Root2025"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: cmdb-storage
+          mountPath: /var/lib/mysql
+        - name: cmdb-init
+          mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
+      volumes:
+      - name: cmdb-storage
+        persistentVolumeClaim:
+          claimName: cmdb-pvc
+      - name: cmdb-init
+        configMap:
+          name: cmdb-init-sql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmdb-db
+  namespace: epm
+spec:
+  selector:
+    app: epm-cmdb
+  ports:
+  - port: 3306
+    targetPort: 3306
+  type: ClusterIP

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epm-erp
+  namespace: epm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: epm-erp
+  template:
+    metadata:
+      labels:
+        app: epm-erp
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: erp-html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      volumes:
+      - name: erp-html
+        configMap:
+          name: erp-html-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: epm-erp-svc
+  namespace: epm
+spec:
+  selector:
+    app: epm-erp
+  ports:
+  - port: 8090
+    targetPort: 80
+  type: NodePort

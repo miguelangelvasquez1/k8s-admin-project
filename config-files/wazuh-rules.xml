@@ -1,0 +1,28 @@
+<group name="epm-custom,">
+
+  <rule id="100001" level="12">
+    <if_sid>5710</if_sid>
+    <description>EPM-SOC: Intento de login fallido repetido — posible fuerza bruta</description>
+    <group>authentication_failures,pci_dss_10.2.4,pci_dss_10.2.5</group>
+  </rule>
+
+  <rule id="100002" level="15">
+    <if_sid>5710</if_sid>
+    <match>lrojas|alopez</match>
+    <description>EPM-SOC: Login de cuenta ex-empleado detectado — CRITICO</description>
+    <group>authentication_success,gdpr_IV_35.7.d</group>
+  </rule>
+
+  <rule id="100003" level="10">
+    <if_sid>5715</if_sid>
+    <description>EPM-SOC: Acceso a sistema fuera de horario laboral</description>
+    <group>policy_violation</group>
+  </rule>
+
+  <rule id="100004" level="8">
+    <description>EPM-SOC: Cambio en configuración de activo CMDB sin autorización</description>
+    <match>cmdb_epm</match>
+    <group>configuration_changed</group>
+  </rule>
+
+</group>

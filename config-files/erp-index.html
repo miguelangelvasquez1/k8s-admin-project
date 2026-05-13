@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>EPM — Sistema ERP (simulado)</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .banner { background: #0c447c; color: white; padding: 20px; border-radius: 8px; }
+    .alert { background: #fcebeb; border-left: 4px solid #e24b4a; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th { background: #e6f1fb; padding: 10px; text-align: left; }
+    td { padding: 10px; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <h2>Empresas Públicas de Medellín — ERP Corporativo</h2>
+    <p>Módulo de Gestión de Transición (simulado para prototipo)</p>
+  </div>
+  <div class="alert">
+    <strong>Alerta de sistema:</strong> Se detectaron 3 inconsistencias entre HCM y el Directorio Activo.
+    Usuarios retirados con acceso activo: <strong>lrojas, alopez</strong>.
+    Nuevo empleado sin cuenta AD: <strong>cmendoza</strong>.
+  </div>
+  <h3>Estado de sincronización HCM ↔ Active Directory</h3>
+  <table>
+    <tr><th>Usuario</th><th>Estado HCM</th><th>Estado AD</th><th>Brecha</th></tr>
+    <tr><td>jperez</td><td>Activo</td><td>Activo</td><td style="color:green">Sincronizado</td></tr>
+    <tr><td>mgarcia</td><td>Activo</td><td>Activo</td><td style="color:green">Sincronizado</td></tr>
+    <tr><td>lrojas</td><td>Retirado</td><td>Activo</td><td style="color:red">BRECHA — cuenta no desactivada</td></tr>
+    <tr><td>alopez</td><td>Retirado</td><td>Activo</td><td style="color:red">BRECHA — cuenta no desactivada</td></tr>
+    <tr><td>cmendoza</td><td>Activo</td><td>No existe</td><td style="color:orange">BRECHA — sin cuenta AD</td></tr>
+  </table>
+</body>
+</html>

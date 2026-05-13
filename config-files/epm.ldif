@@ -1,0 +1,93 @@
+# Unidades organizativas
+dn: ou=empleados,dc=epm,dc=com,dc=co
+objectClass: organizationalUnit
+ou: empleados
+
+dn: ou=grupos,dc=epm,dc=com,dc=co
+objectClass: organizationalUnit
+ou: grupos
+
+dn: ou=exEmpleados,dc=epm,dc=com,dc=co
+objectClass: organizationalUnit
+ou: exEmpleados
+
+# Grupos
+dn: cn=TI,ou=grupos,dc=epm,dc=com,dc=co
+objectClass: groupOfNames
+cn: TI
+member: uid=jperez,ou=empleados,dc=epm,dc=com,dc=co
+
+dn: cn=Operaciones,ou=grupos,dc=epm,dc=com,dc=co
+objectClass: groupOfNames
+cn: Operaciones
+member: uid=mgarcia,ou=empleados,dc=epm,dc=com,dc=co
+
+# ---- EMPLEADOS ACTIVOS ----
+dn: uid=jperez,ou=empleados,dc=epm,dc=com,dc=co
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: jperez
+cn: Juan Pérez
+sn: Pérez
+givenName: Juan
+mail: juan.perez@epm.com.co
+title: Ingeniero TI
+departmentNumber: TI
+employeeNumber: 1001
+employeeType: activo
+uidNumber: 1001
+gidNumber: 1001
+homeDirectory: /home/jperez
+userPassword: {SSHA}Ep@2025!
+
+dn: uid=mgarcia,ou=empleados,dc=epm,dc=com,dc=co
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: mgarcia
+cn: María García
+sn: García
+givenName: María
+mail: maria.garcia@epm.com.co
+title: Analista Operaciones
+departmentNumber: Operaciones
+employeeNumber: 1002
+employeeType: activo
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/mgarcia
+userPassword: {SSHA}Ep@2025!
+
+# ---- EX-EMPLEADOS (CUENTAS AÚN ACTIVAS — PROBLEMA 4.3.1) ----
+dn: uid=lrojas,ou=empleados,dc=epm,dc=com,dc=co
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: lrojas
+cn: Luis Rojas
+sn: Rojas
+givenName: Luis
+mail: luis.rojas@epm.com.co
+title: Soporte TI
+departmentNumber: TI
+employeeNumber: 0842
+employeeType: RETIRADO-NO-DESACTIVADO
+uidNumber: 1003
+gidNumber: 1001
+homeDirectory: /home/lrojas
+userPassword: {SSHA}pass123
+
+dn: uid=alopez,ou=empleados,dc=epm,dc=com,dc=co
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: alopez
+cn: Andrea López
+sn: López
+givenName: Andrea
+mail: andrea.lopez@epm.com.co
+title: Coordinadora RRHH
+departmentNumber: TI
+employeeNumber: 0735
+employeeType: RETIRADO-NO-DESACTIVADO
+uidNumber: 1004
+gidNumber: 1001
+homeDirectory: /home/alopez
+userPassword: {SSHA}pass123
