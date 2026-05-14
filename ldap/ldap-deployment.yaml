@@ -39,7 +39,7 @@ spec:
           value: "Epm@Admin2025"
         - name: CONFIG_PASS
           value: "Epm@Config2025"
-        - name: ORGANISATION
+        - name: ORGANIZATION
           value: "Empresas Publicas de Medellin"
         - name: LOG_LEVEL
           value: "256"

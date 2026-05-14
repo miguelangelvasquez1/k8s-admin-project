@@ -28,12 +28,16 @@ spec:
       - name: wazuh-dashboard
         image: wazuh/wazuh-dashboard:4.7.3
         env:
-        - name: INDEXER_USERNAME
+        - name: OPENSEARCH_HOSTS
+          value: '["http://wazuh-indexer:9200"]'
+        - name: OPENSEARCH_USERNAME
           value: "admin"
-        - name: INDEXER_PASSWORD
+        - name: OPENSEARCH_PASSWORD
           value: "Epm@Index2025!"
+        - name: DISABLE_SECURITY_DASHBOARDS_PLUGIN
+          value: "true"
         - name: WAZUH_API_URL
-          value: "https://wazuh-manager"
+          value: "http://wazuh-manager"
         - name: WAZUH_API_PORT
           value: "55000"
         - name: API_USERNAME

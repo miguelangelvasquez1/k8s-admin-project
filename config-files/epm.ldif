@@ -38,7 +38,7 @@ employeeType: activo
 uidNumber: 1001
 gidNumber: 1001
 homeDirectory: /home/jperez
-userPassword: {SSHA}Ep@2025!
+userPassword: Ep@2025!
 
 dn: uid=mgarcia,ou=empleados,dc=epm,dc=com,dc=co
 objectClass: inetOrgPerson
@@ -55,7 +55,7 @@ employeeType: activo
 uidNumber: 1002
 gidNumber: 1002
 homeDirectory: /home/mgarcia
-userPassword: {SSHA}Ep@2025!
+userPassword: Ep@2025!
 
 # ---- EX-EMPLEADOS (CUENTAS AÚN ACTIVAS — PROBLEMA 4.3.1) ----
 dn: uid=lrojas,ou=empleados,dc=epm,dc=com,dc=co
@@ -73,7 +73,7 @@ employeeType: RETIRADO-NO-DESACTIVADO
 uidNumber: 1003
 gidNumber: 1001
 homeDirectory: /home/lrojas
-userPassword: {SSHA}pass123
+userPassword: pass123
 
 dn: uid=alopez,ou=empleados,dc=epm,dc=com,dc=co
 objectClass: inetOrgPerson
@@ -90,4 +90,4 @@ employeeType: RETIRADO-NO-DESACTIVADO
 uidNumber: 1004
 gidNumber: 1001
 homeDirectory: /home/alopez
-userPassword: {SSHA}pass123
+userPassword: pass123
